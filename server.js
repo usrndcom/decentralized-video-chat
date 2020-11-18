@@ -14,6 +14,14 @@ var path = require("path");
 var public = path.join(__dirname, "public");
 const url = require("url");
 
+const https = require("https"),
+  fs = require("fs");
+
+const options = {
+  key: fs.readFileSync("/opt/ssl/localhost.key"),
+  cert: fs.readFileSync("/opt/ssl/localhost.crt")
+};
+
 // enable ssl redirect
 app.use(sslRedirect());
 
@@ -130,3 +138,4 @@ var port = process.env.PORT || 3000;
 http.listen(port, function () {
   console.log("http://localhost:" + port);
 });
+https.createServer(options, app).listen(8080);
